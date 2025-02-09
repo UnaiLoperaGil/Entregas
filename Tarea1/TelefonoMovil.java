@@ -54,7 +54,7 @@ public class TelefonoMovil{
 
     public int findContact(String nombre){
         for(int i = 0; i < this.myContacts.size(); i++){
-            if(this.myContacts.get(i).getName().equals(nombre)){
+            if(this.myContacts.get(i).getName().equalsIgnoreCase(nombre)){
                 return i;
             }
         }

@@ -1,5 +1,7 @@
 package Tarea1;
 
+import java.util.Objects;
+
 public class Contacto implements Comparable<Contacto>{
     private String name;
     private String phoneNumber;
@@ -30,5 +32,19 @@ public class Contacto implements Comparable<Contacto>{
     public static Contacto createContact(String nombre, String numeroTelefono){
         Contacto contacto = new Contacto(nombre,numeroTelefono);
         return contacto;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Contacto contacto = (Contacto) obj;
+        return Objects.equals(name, contacto.name) &&
+                Objects.equals(phoneNumber, contacto.phoneNumber);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, phoneNumber);
     }
 }
