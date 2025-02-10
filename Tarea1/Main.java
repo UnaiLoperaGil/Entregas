@@ -92,20 +92,7 @@ public class Main {
                     }
                     break;
                 case 5:
-                    String buscar;
-                    do {
-                        System.out.println("Introduce el nombre que quieres buscar: ");
-                        buscar = scanner.nextLine();
-                    }while(!validarNombre(buscar));
-                    int encontrado = movil.findContact(buscar);
-                    if(encontrado >= 0){
-                        System.out.println("La información del contacto es la siguiente: ");
-                        System.out.println("Contacto: " + movil.myContacts.get(encontrado).getName());
-                        System.out.println("Teléfono: " + movil.myContacts.get(encontrado).getPhoneNumber());
-                    }
-                    else {
-                        System.err.println("ERROR Contacto no encontrado");
-                    }
+                    buscarNombre(movil);
                     break;
                 case 6:
                     imprimirMenu();
@@ -115,20 +102,7 @@ public class Main {
                     System.out.println("Se han ordenado los contactos");
                     break;
                 case 8:
-                    String buscarTelefono;
-                    do {
-                        System.out.println("Introduce el teléfono que quieres buscar: ");
-                        buscarTelefono = scanner.nextLine();
-                    }while(!validarTelefono(buscarTelefono));
-                    int encontrarTelefono = movil.findContactPhone(buscarTelefono);
-                    if(encontrarTelefono >= 0){
-                        System.out.println("La información del contacto es la siguiente: ");
-                        System.out.println("Contacto: " + movil.myContacts.get(encontrarTelefono).getName());
-                        System.out.println("Teléfono: " + movil.myContacts.get(encontrarTelefono).getPhoneNumber());
-                    }
-                    else{
-                        System.err.println("ERROR Contacto no encontrado");
-                    }
+                    buscarTelefono(movil);
                     break;
                 case 9:
                     movil.myContacts.clear();
@@ -140,6 +114,30 @@ public class Main {
                         contador++;
                     }
                     System.out.println("Hay " + contador + " contacto(s)");
+                    break;
+                case 11:
+                    opcionValida = false;
+                        do {
+                            try {
+                                System.out.println("Selecciona por qué campo quieres buscar: ");
+                                System.out.println("1. Por nombre");
+                                System.out.println("2. Por teléfono");
+                                int opcionBusqueda = scanner.nextInt();
+                                if (opcionBusqueda == 1) {
+                                    buscarNombre(movil);
+                                    opcionValida = true;
+                                } else if (opcionBusqueda == 2) {
+                                    buscarTelefono(movil);
+                                    opcionValida = true;
+                                } else {
+                                    System.err.println("La opción introducida no está considerada");
+                                }
+                            }catch(InputMismatchException noNumerico){
+                                System.err.println("ERROR, la opción introducida no es númerica");
+                                scanner.nextLine();
+                                opcionValida = false;
+                            }
+                        } while (!opcionValida);
                     break;
                 default:
                     System.err.println("ERROR, el número introducido no está considerado en el menú");
@@ -163,6 +161,7 @@ public class Main {
         System.out.println("8 - Buscar contacto por teléfono");
         System.out.println("9 - Borrar todos los contactos");
         System.out.println("10 - Cantidad de contactos en la lista");
+        System.out.println("11 - Buscar contacto por campo");
     }
 
     public static boolean validarTelefono(String numero){
@@ -187,5 +186,41 @@ public class Main {
             return false;
         }
         return true;
+    }
+
+    public static void buscarNombre(TelefonoMovil movil){
+        String buscar;
+        Scanner scanner = new Scanner(System.in);
+        do {
+            System.out.println("Introduce el nombre que quieres buscar: ");
+            buscar = scanner.nextLine();
+        }while(!validarNombre(buscar));
+        int encontrado = movil.findContact(buscar);
+        if(encontrado >= 0){
+            System.out.println("La información del contacto es la siguiente: ");
+            System.out.println("Contacto: " + movil.myContacts.get(encontrado).getName());
+            System.out.println("Teléfono: " + movil.myContacts.get(encontrado).getPhoneNumber());
+        }
+        else {
+            System.err.println("ERROR Contacto no encontrado");
+        }
+    }
+
+    public static void buscarTelefono(TelefonoMovil movil){
+        Scanner scanner = new Scanner(System.in);
+        String buscarTelefono;
+        do {
+            System.out.println("Introduce el teléfono que quieres buscar: ");
+            buscarTelefono = scanner.nextLine();
+        }while(!validarTelefono(buscarTelefono));
+        int encontrarTelefono = movil.findContactPhone(buscarTelefono);
+        if(encontrarTelefono >= 0){
+            System.out.println("La información del contacto es la siguiente: ");
+            System.out.println("Contacto: " + movil.myContacts.get(encontrarTelefono).getName());
+            System.out.println("Teléfono: " + movil.myContacts.get(encontrarTelefono).getPhoneNumber());
+        }
+        else{
+            System.err.println("ERROR Contacto no encontrado");
+        }
     }
 }
