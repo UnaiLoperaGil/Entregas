@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
@@ -19,6 +20,24 @@ public class Main {
         Paradas parada90 = new Paradas(90, "Renfe-Parc Municipal", "Renfe-Parc Municipal");
         Paradas parada117 = new Paradas(117, "Virgen de la Cabeza - Ll. del Pensionista", "Virgen de la Cabeza - Ll. del Pensionista");
         Paradas parada56 = new Paradas(56, "Cristóbal Sanz", "Cristobal Sanz");
+
+        ArrayList<Paradas> paradas = new ArrayList<>();
+        paradas.add(parada1);
+        paradas.add(parada2);
+        paradas.add(parada3);
+        paradas.add(parada4);
+        paradas.add(parada5);
+        paradas.add(parada6);
+        paradas.add(parada7);
+        paradas.add(parada71);
+        paradas.add(parada335);
+        paradas.add(parada346);
+        paradas.add(parada347);
+        paradas.add(parada115);
+        paradas.add(parada89);
+        paradas.add(parada90);
+        paradas.add(parada117);
+        paradas.add(parada56);
 
         Lineas lineaA = new Lineas("A");
         lineaA.getParadas().put(parada1, 75);
@@ -48,9 +67,71 @@ public class Main {
         lineaF.getParadas().put(parada89, 75);
         lineaF.getParadas().put(parada90, 70);
 
-        int inicial;
-        System.out.println("Elige parada inicial: ");
-        inicial = scan.nextInt();
+        ArrayList<Lineas> lineas = new ArrayList<>();
+        lineas.add(lineaA);
+        lineas.add(lineaJ);
+        lineas.add(lineaF);
+        lineas.add(lineaI);
 
+        int inicial;
+        String linea;
+        int ultima;
+        boolean encontrada = false;
+        do {
+            System.out.print("Elige parada inicial: ");
+            inicial = scan.nextInt();
+            encontrada = encontrarParada(inicial, paradas);
+            if (!encontrada) {
+                System.out.println("Numero de parada no válido");
+            } else {
+                System.out.println("Has elegido " + queryParada(inicial, paradas).getNombre());
+            }
+        }while(!encontrada);
+        encontrada = false;
+        do{
+            System.out.print("Linea de bus: ");
+            linea = scan.next().toUpperCase();
+            encontrada = encontrarLinea(linea, lineas);
+            if(!encontrada){
+                System.out.println("Linea no válida");
+            }
+        }while(!encontrada);
+        do{
+            System.out.print("Parada final: ");
+            ultima = scan.nextInt();
+            encontrada = encontrarParada(ultima, paradas);
+            if(!encontrada){
+                System.out.println("Parada no válida");
+            } else{
+                System.out.println("Has elegido " + queryParada(ultima, paradas).getNombre());
+            }
+        }while(!encontrada);
+    }
+
+    public static boolean encontrarParada(int numero, ArrayList<Paradas> paradas){
+        for(Paradas parada : paradas){
+            if(parada.getNumero() == numero){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean encontrarLinea(String lineaI, ArrayList<Lineas> lineas){
+        for(Lineas linea : lineas){
+            if(linea.getId().equalsIgnoreCase(lineaI)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static Paradas queryParada(int numero, ArrayList<Paradas> paradas){
+        for(Paradas parada : paradas){
+            if(parada.getNumero() == numero){
+                return parada;
+            }
+        }
+        return null;
     }
 }
